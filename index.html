@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoPrint — Sustainable 3D Fashion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #1a3a2a;
+    --green-mid: #2d6a4f;
+    --green-bright: #52b788;
+    --green-light: #95d5b2;
+    --cream: #f8f4ec;
+    --cream-dark: #ede8db;
+    --white: #ffffff;
+    --text-dark: #1a2e20;
+    --text-mid: #4a6355;
+    --text-light: #7a9585;
+    --accent: #b7e4c7;
+    --amber: #d4a853;
+    --shadow-sm: 0 2px 12px rgba(26,58,42,0.08);
+    --shadow-md: 0 8px 32px rgba(26,58,42,0.12);
+    --shadow-lg: 0 20px 60px rgba(26,58,42,0.18);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(248,244,236,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(149,213,178,0.3);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green-deep);
+    display: flex; align-items: center; gap: 0px;
+    cursor: pointer;
+  }
+  .nav-logo span { color: var(--green-bright); font-weight: 600; }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-links button {
+    background: none; border: none;
+    padding: 8px 16px; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    color: var(--text-mid); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-links button:hover, .nav-links button.active {
+    background: var(--green-bright); color: var(--white);
+  }
+  .nav-cta {
+    background: var(--green-deep) !important;
+    color: var(--white) !important;
+    border-radius: 8px !important;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; padding-top: 64px; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ── HOME PAGE ── */
+  .hero {
+    background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 60%, var(--green-bright) 100%);
+    min-height: 90vh; display: flex; align-items: center;
+    position: relative; overflow: hidden; padding: 60px 80px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -50%; right: -10%;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(149,213,178,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -20%; left: 20%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(82,183,136,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-content { max-width: 800px; position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(149,213,178,0.2);
+    border: 1px solid rgba(149,213,178,0.4);
+    padding: 6px 16px; border-radius: 100px;
+    color: var(--green-light); font-size: 13px; font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(42px, 5vw, 68px);
+    color: var(--white); line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .hero h1 em { color: var(--green-light); font-style: italic; }
+  .hero p {
+    color: rgba(255,255,255,0.75); font-size: 18px;
+    margin-bottom: 36px; max-width: 480px;
+  }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--white); color: var(--green-deep);
+    border: none; padding: 14px 28px; border-radius: 100px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    border: 1.5px solid rgba(255,255,255,0.4); padding: 14px 28px; border-radius: 100px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 52px; padding-top: 36px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px; color: var(--white); font-weight: 600;
+  }
+  .hero-stat-label { color: rgba(255,255,255,0.55); font-size: 13px; }
+
+  /* flow section */
+  .section { padding: 80px 80px; }
+  .section-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--green-bright);
+    margin-bottom: 12px;
+  }
+  .section-title { font-size: clamp(28px, 3vw, 42px); color: var(--green-deep); margin-bottom: 16px; }
+  .section-sub { color: var(--text-mid); max-width: 520px; font-size: 16px; }
+
+  .flow-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; margin-top: 48px;
+  }
+  .flow-card {
+    background: var(--white); border-radius: var(--radius);
+    padding: 32px 28px; position: relative;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(149,213,178,0.2);
+    transition: all 0.3s;
+  }
+  .flow-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .flow-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px; color: var(--accent);
+    line-height: 1; margin-bottom: 16px; font-weight: 600;
+  }
+  .flow-icon { font-size: 28px; margin-bottom: 12px; }
+  .flow-card h3 { font-size: 20px; color: var(--green-deep); margin-bottom: 8px; }
+  .flow-card p { color: var(--text-mid); font-size: 14px; line-height: 1.6; }
+
+  /* metrics */
+  .metrics-strip {
+    background: var(--green-deep);
+    padding: 48px 80px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+  }
+  .metric-item { text-align: center; }
+  .metric-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px; color: var(--green-light); font-weight: 600;
+  }
+  .metric-unit { font-size: 20px; color: var(--green-bright); }
+  .metric-label { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; }
+
+  /* ── MARKETPLACE ── */
+  .page-header {
+    background: var(--green-deep); padding: 48px 80px 40px;
+    color: var(--white);
+  }
+  .page-header h2 { font-size: 40px; color: var(--white); }
+  .page-header p { color: rgba(255,255,255,0.6); margin-top: 8px; }
+
+  .marketplace-filters {
+    padding: 24px 80px; background: var(--white);
+    border-bottom: 1px solid var(--cream-dark);
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 8px 20px; border-radius: 100px;
+    border: 1.5px solid var(--cream-dark);
+    background: none; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500; color: var(--text-mid);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--green-bright); color: var(--white); border-color: var(--green-bright);
+  }
+
+  .products-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px; padding: 40px 80px;
+  }
+  .product-card {
+    background: var(--white); border-radius: var(--radius);
+    overflow: hidden; box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(149,213,178,0.15);
+    transition: all 0.3s; cursor: pointer;
+  }
+  .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .product-img {
+    height: 220px; display: flex; align-items: center; justify-content: center;
+    font-size: 72px; position: relative;
+  }
+  .eco-score-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--green-deep); color: var(--green-light);
+    padding: 4px 10px; border-radius: 100px;
+    font-size: 11px; font-weight: 600;
+  }
+  .product-info { padding: 20px; }
+  .product-name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--green-deep); }
+  .product-designer { color: var(--text-light); font-size: 13px; margin: 4px 0 12px; }
+  .product-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .product-price { font-size: 20px; font-weight: 600; color: var(--green-mid); }
+  .product-material {
+    background: var(--accent); color: var(--green-deep);
+    padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 500;
+  }
+  .water-saved { 
+    display: flex; align-items: center; gap: 6px;
+    color: var(--text-light); font-size: 12px; margin-bottom: 16px;
+  }
+  .product-btns { display: flex; gap: 8px; }
+  .btn-sm {
+    flex: 1; padding: 10px; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; border: none;
+  }
+  .btn-green { background: var(--green-bright); color: var(--white); }
+  .btn-green:hover { background: var(--green-mid); }
+  .btn-ghost { background: var(--cream); color: var(--text-mid); border: 1.5px solid var(--cream-dark) !important; }
+  .btn-ghost:hover { border-color: var(--green-bright) !important; color: var(--green-bright); }
+
+  /* ── CUSTOMIZATION ── */
+  .custom-layout { display: grid; grid-template-columns: 1fr 400px; gap: 40px; padding: 40px 80px; }
+  .custom-form { display: flex; flex-direction: column; gap: 28px; }
+  .form-section {
+    background: var(--white); border-radius: var(--radius);
+    padding: 28px; box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(149,213,178,0.15);
+  }
+  .form-section-title { font-size: 16px; font-weight: 600; color: var(--green-deep); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 13px; font-weight: 500; color: var(--text-mid); }
+  .form-group input, .form-group select {
+    padding: 10px 14px; border-radius: 8px;
+    border: 1.5px solid var(--cream-dark);
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    color: var(--text-dark); background: var(--cream);
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: var(--green-bright); }
+
+  .material-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .material-option {
+    padding: 14px 10px; border-radius: 10px;
+    border: 1.5px solid var(--cream-dark);
+    text-align: center; cursor: pointer; transition: all 0.2s;
+    background: var(--cream);
+  }
+  .material-option:hover, .material-option.selected {
+    border-color: var(--green-bright); background: rgba(82,183,136,0.08);
+  }
+  .material-option .mat-icon { font-size: 24px; margin-bottom: 6px; }
+  .material-option .mat-name { font-size: 12px; font-weight: 600; color: var(--green-deep); }
+  .material-option .mat-detail { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+
+  .upload-area {
+    border: 2px dashed var(--green-light); border-radius: 10px;
+    padding: 32px; text-align: center; cursor: pointer;
+    transition: all 0.2s; background: rgba(149,213,178,0.05);
+  }
+  .upload-area:hover { border-color: var(--green-bright); background: rgba(82,183,136,0.08); }
+  .upload-icon { font-size: 32px; margin-bottom: 8px; }
+  .upload-text { color: var(--text-mid); font-size: 14px; }
+  .upload-sub { color: var(--text-light); font-size: 12px; margin-top: 4px; }
+
+  .custom-sidebar { display: flex; flex-direction: column; gap: 20px; }
+  .preview-card {
+    background: var(--white); border-radius: var(--radius);
+    padding: 28px; box-shadow: var(--shadow-sm);
+    text-align: center;
+  }
+  .preview-garment {
+    width: 200px; height: 240px; margin: 0 auto 20px;
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 80px; background: linear-gradient(135deg, var(--accent), var(--cream-dark));
+    position: relative; overflow: hidden;
+  }
+  .impact-card {
+    background: var(--green-deep); border-radius: var(--radius); padding: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .impact-card h3 { color: var(--white); font-size: 16px; margin-bottom: 16px; }
+  .impact-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .impact-row:last-child { border: none; }
+  .impact-label { color: rgba(255,255,255,0.6); font-size: 13px; }
+  .impact-val { color: var(--green-light); font-size: 14px; font-weight: 600; }
+
+  .order-btn {
+    width: 100%; padding: 16px; background: var(--green-bright); color: var(--white);
+    border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif;
+    font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    margin-top: 4px;
+  }
+  .order-btn:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+  /* ── DESIGNER DASHBOARD ── */
+  .dash-layout { padding: 40px 80px; display: grid; gap: 32px; }
+  .dash-top { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .stat-card {
+    background: var(--white); border-radius: var(--radius); padding: 24px;
+    box-shadow: var(--shadow-sm); border: 1px solid rgba(149,213,178,0.15);
+  }
+  .stat-card-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 8px; }
+  .stat-card-value { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--green-deep); font-weight: 600; }
+  .stat-card-sub { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+  .stat-card-icon { font-size: 28px; float: right; margin-top: -4px; }
+
+  .dash-two-col { display: grid; grid-template-columns: 1fr 380px; gap: 28px; }
+  .card-block {
+    background: var(--white); border-radius: var(--radius);
+    padding: 28px; box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(149,213,178,0.15);
+  }
+  .card-block-title { font-size: 18px; font-weight: 600; color: var(--green-deep); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+  .badge { padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+  .badge-green { background: var(--accent); color: var(--green-deep); }
+  .badge-amber { background: #fdecc8; color: #92400e; }
+
+  .upload-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .upload-submit {
+    width: 100%; padding: 12px; background: var(--green-bright); color: var(--white);
+    border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 6px; transition: background 0.2s;
+  }
+  .upload-submit:hover { background: var(--green-mid); }
+
+  .design-list { display: flex; flex-direction: column; gap: 14px; }
+  .design-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px; border-radius: 10px; background: var(--cream);
+    border: 1px solid var(--cream-dark);
+  }
+  .design-thumb {
+    width: 52px; height: 52px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--green-light), var(--accent));
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+    flex-shrink: 0;
+  }
+  .design-item-info { flex: 1; }
+  .design-item-name { font-weight: 600; color: var(--green-deep); font-size: 14px; }
+  .design-item-meta { color: var(--text-light); font-size: 12px; margin-top: 2px; }
+  .design-item-price { font-weight: 600; color: var(--green-mid); font-size: 15px; }
+
+  /* ── HUB DASHBOARD ── */
+  .orders-table {
+    width: 100%; border-collapse: collapse; font-size: 14px;
+  }
+  .orders-table th {
+    text-align: left; padding: 12px 16px;
+    background: var(--cream); color: var(--text-mid);
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .orders-table td { padding: 14px 16px; border-bottom: 1px solid var(--cream-dark); vertical-align: middle; }
+  .orders-table tr:hover td { background: rgba(149,213,178,0.05); }
+  .status-badge {
+    padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600;
+  }
+  .status-pending { background: #fef3c7; color: #92400e; }
+  .status-printing { background: rgba(82,183,136,0.15); color: var(--green-mid); }
+  .status-done { background: var(--accent); color: var(--green-deep); }
+
+  .action-btns { display: flex; gap: 6px; }
+  .action-btn {
+    padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+  }
+  .action-btn-dl { background: var(--cream-dark); color: var(--text-mid); }
+  .action-btn-dl:hover { background: var(--green-light); color: var(--green-deep); }
+  .action-btn-print { background: var(--green-bright); color: var(--white); }
+  .action-btn-print:hover { background: var(--green-mid); }
+  .action-btn-done { background: var(--green-deep); color: var(--white); }
+  .action-btn-done:hover { background: var(--text-dark); }
+
+  .hub-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 28px 80px 0; }
+
+  /* ── SUSTAINABILITY DASHBOARD ── */
+  .sustain-hero {
+    background: linear-gradient(135deg, #0d2416 0%, var(--green-deep) 50%, var(--green-mid) 100%);
+    padding: 56px 80px; color: var(--white);
+  }
+  .sustain-hero h2 { font-size: 40px; color: var(--white); }
+  .sustain-hero p { color: rgba(255,255,255,0.6); margin-top: 8px; }
+
+  .sustain-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 40px 80px 0; }
+  .sustain-card {
+    background: var(--white); border-radius: var(--radius); padding: 28px;
+    box-shadow: var(--shadow-sm); border: 1px solid rgba(149,213,178,0.15);
+    text-align: center;
+  }
+  .sustain-icon { font-size: 36px; margin-bottom: 12px; }
+  .sustain-num {
+    font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 600;
+    color: var(--green-deep); line-height: 1;
+  }
+  .sustain-unit { font-size: 16px; color: var(--green-bright); }
+  .sustain-label { color: var(--text-light); font-size: 13px; margin-top: 6px; }
+
+  .sustain-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 28px 80px; }
+
+  .leaderboard { padding: 0 80px 60px; }
+  .lb-title { font-size: 22px; color: var(--green-deep); margin-bottom: 20px; }
+  .lb-list { display: flex; flex-direction: column; gap: 10px; }
+  .lb-row {
+    background: var(--white); border-radius: 10px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px;
+    box-shadow: var(--shadow-sm); border: 1px solid rgba(149,213,178,0.15);
+    transition: all 0.2s;
+  }
+  .lb-row:hover { transform: translateX(4px); }
+  .lb-rank {
+    font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600;
+    width: 36px; text-align: center;
+  }
+  .lb-rank.gold { color: #d4a853; }
+  .lb-rank.silver { color: #9ca3af; }
+  .lb-rank.bronze { color: #a16207; }
+  .lb-rank.other { color: var(--text-light); }
+  .lb-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; background: var(--accent); flex-shrink: 0;
+  }
+  .lb-user-info { flex: 1; }
+  .lb-user-name { font-weight: 600; color: var(--green-deep); font-size: 15px; }
+  .lb-user-meta { color: var(--text-light); font-size: 12px; margin-top: 1px; }
+  .lb-tokens {
+    text-align: right;
+  }
+  .lb-tokens-num { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--green-bright); font-weight: 600; }
+  .lb-tokens-label { color: var(--text-light); font-size: 11px; }
+
+  .progress-bar-wrap { margin-top: 16px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-mid); margin-bottom: 6px; }
+  .progress-bar {
+    height: 8px; background: var(--cream-dark); border-radius: 100px; overflow: hidden;
+  }
+  .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--green-bright), var(--green-mid)); }
+
+  /* ── CHATBOT ── */
+  .chatbot-fab {
+    position: fixed; bottom: 32px; right: 32px; z-index: 200;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--green-bright); color: var(--white);
+    border: none; cursor: pointer; box-shadow: var(--shadow-lg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; transition: all 0.3s;
+  }
+  .chatbot-fab:hover { transform: scale(1.08); background: var(--green-mid); }
+
+  .chatbot-popup {
+    position: fixed; bottom: 110px; right: 32px; z-index: 200;
+    width: 360px; background: var(--white); border-radius: var(--radius);
+    box-shadow: var(--shadow-lg); display: none; flex-direction: column;
+    overflow: hidden; border: 1px solid rgba(149,213,178,0.2);
+    animation: popIn 0.25s ease;
+  }
+  .chatbot-popup.open { display: flex; }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.92) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+  .chatbot-header {
+    background: var(--green-deep); padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .chatbot-header-info { display: flex; align-items: center; gap: 10px; }
+  .chatbot-dot { width: 8px; height: 8px; background: var(--green-bright); border-radius: 50%; }
+  .chatbot-header h4 { color: var(--white); font-size: 15px; font-weight: 600; font-family: 'DM Sans'; }
+  .chatbot-header p { color: rgba(255,255,255,0.5); font-size: 11px; }
+  .chatbot-close { background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 18px; }
+  .chatbot-close:hover { color: var(--white); }
+  .chatbot-body { padding: 16px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+  .chat-msg { max-width: 85%; }
+  .chat-msg.bot { align-self: flex-start; }
+  .chat-msg.user { align-self: flex-end; }
+  .chat-bubble {
+    padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.5;
+  }
+  .chat-msg.bot .chat-bubble { background: var(--cream); color: var(--text-dark); border-radius: 4px 12px 12px 12px; }
+  .chat-msg.user .chat-bubble { background: var(--green-bright); color: var(--white); border-radius: 12px 4px 12px 12px; }
+  .chatbot-questions { padding: 0 16px 8px; }
+  .chatbot-q-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 8px; }
+  .chatbot-q-btn {
+    display: block; width: 100%; text-align: left;
+    padding: 9px 12px; border-radius: 8px; margin-bottom: 6px;
+    background: var(--cream); border: 1.5px solid var(--cream-dark);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--text-mid);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .chatbot-q-btn:hover { border-color: var(--green-bright); color: var(--green-mid); background: rgba(82,183,136,0.05); }
+  .chatbot-input-wrap { padding: 12px 16px; border-top: 1px solid var(--cream-dark); display: flex; gap: 8px; }
+  .chatbot-input {
+    flex: 1; padding: 8px 12px; border-radius: 8px;
+    border: 1.5px solid var(--cream-dark); font-family: 'DM Sans', sans-serif; font-size: 13px;
+    outline: none;
+  }
+  .chatbot-input:focus { border-color: var(--green-bright); }
+  .chatbot-send {
+    background: var(--green-bright); color: var(--white); border: none;
+    border-radius: 8px; padding: 8px 14px; cursor: pointer; font-size: 16px;
+    transition: background 0.2s;
+  }
+  .chatbot-send:hover { background: var(--green-mid); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 24px;
+    background: var(--green-deep); color: rgba(255,255,255,0.5);
+    font-size: 13px; margin-top: 40px;
+  }
+
+  /* Utilities */
+  .green-text { color: var(--green-bright); }
+  .divider { border: none; border-top: 1px solid var(--cream-dark); margin: 8px 0; }
+  .full-btn {
+    display: block; width: 100%; padding: 12px;
+    background: var(--green-bright); color: var(--white); border: none;
+    border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: background 0.2s; text-align: center;
+  }
+  .full-btn:hover { background: var(--green-mid); }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .section, .products-grid, .dash-layout, .hub-stats, .sustain-metrics, .sustain-charts, .leaderboard, .page-header, .marketplace-filters { padding-left: 20px; padding-right: 20px; }
+    .flow-grid { grid-template-columns: 1fr 1fr; }
+    .metrics-strip, .dash-top { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 48px 24px; }
+    .custom-layout, .dash-two-col { grid-template-columns: 1fr; }
+    .sustain-metrics { grid-template-columns: 1fr 1fr; }
+    .hero-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Eco<span>Print</span></div>
+  <div class="nav-links">
+    <button onclick="showPage('home')" id="nav-home" class="active">Home</button>
+    <button onclick="showPage('marketplace')" id="nav-marketplace">Marketplace</button>
+    <button onclick="showPage('customize')" id="nav-customize">Customize</button>
+    <button onclick="showPage('designer')" id="nav-designer">Designer</button>
+    <button onclick="showPage('hub')" id="nav-hub">Hub</button>
+    <button onclick="showPage('sustain')" id="nav-sustain">Sustainability</button>
+  </div>
+</nav>
+
+<!-- ████████ HOME ████████ -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🌱 Sustainable by Design</div>
+      <h1>
+        Fashion 
+        <span style="white-space: nowrap;">Printed&nbsp;<em>Locally</em></span>
+        <br>
+        Lived Sustainably
+      </h1>
+      <p>On-demand clothing crafted from recyclable bio-materials at local 3D printing hubs near you. Zero waste, full style.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('marketplace')">Browse Designs</button>
+        <button class="btn-outline" onclick="showPage('customize')">Customize a Garment</button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">14,200<span style="font-size:18px">L</span></div>
+          <div class="hero-stat-label">Water saved this week</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">3,800</div>
+          <div class="hero-stat-label">Garments printed</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">97<span style="font-size:18px">%</span></div>
+          <div class="hero-stat-label">Recyclable materials</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">From Idea to Wardrobe,<br>Without the Waste</h2>
+    <p class="section-sub">EcoPrint reimagines the fashion supply chain — design it, personalise it, print it locally, and return it for recycling.</p>
+    <div class="flow-grid">
+      <div class="flow-card">
+        <div class="flow-num">01</div>
+        <div class="flow-icon">✏️</div>
+        <h3>Design</h3>
+        <p>Independent designers upload patterns and garments to our open marketplace. Every design is optimised for 3D printing.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">02</div>
+        <div class="flow-icon">🎨</div>
+        <h3>Customize</h3>
+        <p>Enter your measurements, pick your material, choose your colorway. Every piece is made exactly for you — no more sizing waste.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">03</div>
+        <div class="flow-icon">🏭</div>
+        <h3>Local Print</h3>
+        <p>Orders are routed to the nearest certified EcoPrint hub. Printed using bio-based filaments with near-zero emissions.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">04</div>
+        <div class="flow-icon">♻️</div>
+        <h3>Recycle</h3>
+        <p>When you're done, return the garment to any hub. Materials are 100% recovered and re-spooled for future prints.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="metrics-strip">
+    <div class="metric-item">
+      <div><span class="metric-num">2.4</span><span class="metric-unit">M L</span></div>
+      <div class="metric-label">Water saved to date</div>
+    </div>
+    <div class="metric-item">
+      <div><span class="metric-num">48</span><span class="metric-unit">K</span></div>
+      <div class="metric-label">Garments recycled</div>
+    </div>
+    <div class="metric-item">
+      <div><span class="metric-num">620</span><span class="metric-unit">T</span></div>
+      <div class="metric-label">CO₂ emissions avoided</div>
+    </div>
+    <div class="metric-item">
+      <div><span class="metric-num">312</span></div>
+      <div class="metric-label">Local printing hubs</div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top: 56px;">
+    <div class="section-label">Materials</div>
+    <h2 class="section-title">Built from Earth,<br>Returned to Earth</h2>
+    <p class="section-sub">Every thread is engineered for circularity — bio-based, recyclable, and kind to the planet.</p>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 36px;">
+      <div class="flow-card" style="text-align: center; padding: 28px;">
+        <div style="font-size: 40px; margin-bottom: 12px;">🌽</div>
+        <h3 style="font-size: 18px;">PLA Bio-Filament</h3>
+        <p style="font-size: 13px; margin-top: 8px;">Corn-based biodegradable plastic. Compostable at end of life. Softer finish, ideal for casual wear.</p>
+        <div style="margin-top: 16px; display: flex; justify-content: center; gap: 8px;">
+          <span class="badge badge-green">Biodegradable</span>
+          <span class="badge badge-amber">Low Carbon</span>
+        </div>
+      </div>
+      <div class="flow-card" style="text-align: center; padding: 28px;">
+        <div style="font-size: 40px; margin-bottom: 12px;">🌊</div>
+        <h3 style="font-size: 18px;">Ocean PET</h3>
+        <p style="font-size: 13px; margin-top: 8px;">Filament recovered from ocean plastic waste. Durable and recyclable. Perfect for outerwear and accessories.</p>
+        <div style="margin-top: 16px; display: flex; justify-content: center; gap: 8px;">
+          <span class="badge badge-green">Ocean-Recovered</span>
+        </div>
+      </div>
+      <div class="flow-card" style="text-align: center; padding: 28px;">
+        <div style="font-size: 40px; margin-bottom: 12px;">🌿</div>
+        <h3 style="font-size: 18px;">Hemp Composite</h3>
+        <p style="font-size: 13px; margin-top: 8px;">Natural hemp fibres blended with bio-resin. Breathable, antibacterial. Best for warm-weather garments.</p>
+        <div style="margin-top: 16px; display: flex; justify-content: center; gap: 8px;">
+          <span class="badge badge-green">Natural</span>
+          <span class="badge badge-green">Breathable</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Prototype for sustainable fashion marketplace concept. &copy; 2025 EcoPrint Initiative.</footer>
+</div>
+
+<!-- ████████ MARKETPLACE ████████ -->
+<div class="page" id="page-marketplace">
+  <div class="page-header">
+    <h2>Marketplace</h2>
+    <p>Browse designs by independent eco-conscious designers — each one printed on demand, locally.</p>
+  </div>
+  <div class="marketplace-filters">
+    <span style="font-size: 13px; font-weight: 600; color: var(--text-mid); margin-right: 4px;">Filter:</span>
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Tops</button>
+    <button class="filter-btn">Bottoms</button>
+    <button class="filter-btn">Outerwear</button>
+    <button class="filter-btn">Accessories</button>
+    <button class="filter-btn">PLA</button>
+    <button class="filter-btn">Ocean PET</button>
+    <button class="filter-btn">Hemp</button>
+    <div style="margin-left: auto; display: flex; gap: 8px; align-items: center;">
+      <span style="font-size: 13px; color: var(--text-light);">Sort by:</span>
+      <select style="padding: 6px 12px; border-radius: 8px; border: 1.5px solid var(--cream-dark); font-family: 'DM Sans'; font-size: 13px; background: var(--white);">
+        <option>Eco Score ↑</option>
+        <option>Price ↑</option>
+        <option>Newest</option>
+        <option>Most Popular</option>
+      </select>
+    </div>
+  </div>
+  <div class="products-grid" id="products-grid">
+    <!-- injected by JS -->
+  </div>
+  <footer>Prototype for sustainable fashion marketplace concept. &copy; 2025 EcoPrint Initiative.</footer>
+</div>
+
+<!-- ████████ CUSTOMIZE ████████ -->
+<div class="page" id="page-customize">
+  <div class="page-header">
+    <h2>Product Customization</h2>
+    <p>Enter your measurements and preferences. We'll print a garment made precisely for you.</p>
+  </div>
+  <div class="custom-layout">
+    <div class="custom-form">
+
+      <div class="form-section">
+        <div class="form-section-title">📐 Body Measurements</div>
+        <div class="form-grid">
+          <div class="form-group"><label>Height (cm)</label><input type="number" placeholder="e.g. 172" value="172"></div>
+          <div class="form-group"><label>Weight (kg)</label><input type="number" placeholder="e.g. 65" value="65"></div>
+          <div class="form-group"><label>Chest (cm)</label><input type="number" placeholder="e.g. 90" value="90"></div>
+          <div class="form-group"><label>Waist (cm)</label><input type="number" placeholder="e.g. 74" value="74"></div>
+          <div class="form-group"><label>Hips (cm)</label><input type="number" placeholder="e.g. 96" value="96"></div>
+          <div class="form-group"><label>Inseam (cm)</label><input type="number" placeholder="e.g. 78" value="78"></div>
+          <div class="form-group"><label>Shoulder Width (cm)</label><input type="number" placeholder="e.g. 42" value="42"></div>
+          <div class="form-group"><label>Sleeve Length (cm)</label><input type="number" placeholder="e.g. 62" value="62"></div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">🌿 Material Selection</div>
+        <div class="material-options">
+          <div class="material-option selected" onclick="selectMaterial(this)">
+            <div class="mat-icon">🌽</div>
+            <div class="mat-name">PLA Bio</div>
+            <div class="mat-detail">Soft, compostable</div>
+          </div>
+          <div class="material-option" onclick="selectMaterial(this)">
+            <div class="mat-icon">🌊</div>
+            <div class="mat-name">Ocean PET</div>
+            <div class="mat-detail">Durable, recycled</div>
+          </div>
+          <div class="material-option" onclick="selectMaterial(this)">
+            <div class="mat-icon">🌿</div>
+            <div class="mat-name">Hemp Mix</div>
+            <div class="mat-detail">Breathable, natural</div>
+          </div>
+          <div class="material-option" onclick="selectMaterial(this)">
+            <div class="mat-icon">🎋</div>
+            <div class="mat-name">Bamboo PLA</div>
+            <div class="mat-detail">Silky, antimicrobial</div>
+          </div>
+          <div class="material-option" onclick="selectMaterial(this)">
+            <div class="mat-icon">🌾</div>
+            <div class="mat-name">Wheat Straw</div>
+            <div class="mat-detail">Rigid, eco-strong</div>
+          </div>
+          <div class="material-option" onclick="selectMaterial(this)">
+            <div class="mat-icon">🍂</div>
+            <div class="mat-name">Cork Blend</div>
+            <div class="mat-detail">Textured, warm</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">🎨 Colour & Style</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Primary Colour</label>
+            <select>
+              <option>Forest Green</option><option>Ocean Blue</option><option>Natural Cream</option>
+              <option>Charcoal</option><option>Terracotta</option><option>Sage</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Accent Colour</label>
+            <select>
+              <option>Natural Cream</option><option>Forest Green</option><option>Stone</option>
+              <option>Rust</option><option>Ivory</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Garment Type</label>
+            <select>
+              <option>Structured Top</option><option>Flowing Blouse</option><option>Trousers</option>
+              <option>Jacket</option><option>Dress</option><option>Shorts</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Finish / Texture</label>
+            <select>
+              <option>Smooth Matte</option><option>Fine Weave</option><option>Textured Grain</option>
+              <option>Micro-Perforated</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">📷 Virtual Try-On Photo Upload</div>
+        <div class="upload-area" onclick="alert('In production, this would upload a photo for AR virtual try-on preview.')">
+          <div class="upload-icon">🤳</div>
+          <div class="upload-text">Upload a full-body photo for virtual preview</div>
+          <div class="upload-sub">JPG, PNG · Max 10 MB · Front-facing, neutral background recommended</div>
+          <div style="margin-top: 16px;">
+            <span style="background: var(--green-bright); color: var(--white); padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: 600;">Choose Photo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="custom-sidebar">
+      <div class="preview-card">
+        <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--green-deep);">Live Preview</h3>
+        <div class="preview-garment">👕</div>
+        <div style="font-size: 13px; color: var(--text-light); text-align: center;">Update options to see changes</div>
+        <div style="margin-top: 16px; padding: 12px; background: var(--cream); border-radius: 8px; font-size: 13px; color: var(--text-mid); text-align: center;">
+          Material: <strong style="color: var(--green-mid);">PLA Bio</strong> · Est. print: <strong style="color: var(--green-mid);">4–6 hrs</strong>
+        </div>
+      </div>
+
+      <div class="impact-card">
+        <h3>🌍 Environmental Impact</h3>
+        <div class="impact-row">
+          <span class="impact-label">Water saved vs traditional</span>
+          <span class="impact-val">2,700 L</span>
+        </div>
+        <div class="impact-row">
+          <span class="impact-label">CO₂ vs fast fashion</span>
+          <span class="impact-val">−14.2 kg</span>
+        </div>
+        <div class="impact-row">
+          <span class="impact-label">Material recyclability</span>
+          <span class="impact-val">100%</span>
+        </div>
+        <div class="impact-row">
+          <span class="impact-label">Local hub distance</span>
+          <span class="impact-val">2.4 km</span>
+        </div>
+        <div class="impact-row">
+          <span class="impact-label">Eco tokens earned</span>
+          <span class="impact-val">🌱 45 tokens</span>
+        </div>
+      </div>
+
+      <div class="card-block" style="padding: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+          <span style="font-size: 14px; color: var(--text-mid);">Base garment</span>
+          <span style="font-weight: 600;">₹4500</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+          <span style="font-size: 14px; color: var(--text-mid);">Material (PLA Bio)</span>
+          <span style="font-weight: 600;">₹1000</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+          <span style="font-size: 14px; color: var(--text-mid);">Local print fee</span>
+          <span style="font-weight: 600;">₹800</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+          <span style="font-size: 14px; color: var(--text-mid);">Eco token discount</span>
+          <span style="font-weight: 600; color: var(--green-bright);">−₹300</span>
+        </div>
+        <hr class="divider">
+        <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 18px; font-weight: 700; color: var(--green-deep);">
+          <span>Total</span><span>₹6000</span>
+        </div>
+        <button class="order-btn" onclick="alert('🌱 Order placed! Your garment will be printed at the hub 2.4 km from you. Estimated pickup: 3 days.')">
+          🛒 Place Order
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Prototype for sustainable fashion marketplace concept. &copy; 2025 EcoPrint Initiative.</footer>
+</div>
+
+<!-- ████████ DESIGNER DASHBOARD ████████ -->
+<div class="page" id="page-designer">
+  <div class="page-header">
+    <h2>Designer Dashboard</h2>
+    <p>Manage your portfolio, track earnings, and measure your positive impact on the planet.</p>
+  </div>
+  <div class="dash-layout">
+    <div class="dash-top">
+      <div class="stat-card">
+        <span class="stat-card-icon">💰</span>
+        <div class="stat-card-label">Total Revenue</div>
+        <div class="stat-card-value">€4,280</div>
+        <div class="stat-card-sub">+€340 this week</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card-icon">🛒</span>
+        <div class="stat-card-label">Total Sales</div>
+        <div class="stat-card-value">94</div>
+        <div class="stat-card-sub">+8 this week</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card-icon">✏️</span>
+        <div class="stat-card-label">Designs Uploaded</div>
+        <div class="stat-card-value">12</div>
+        <div class="stat-card-sub">3 trending this month</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card-icon">🌍</span>
+        <div class="stat-card-label">Water Saved</div>
+        <div class="stat-card-value">253K L</div>
+        <div class="stat-card-sub">via your designs</div>
+      </div>
+    </div>
+
+    <div class="dash-two-col">
+      <div class="card-block">
+        <div class="card-block-title">
+          Upload New Design
+          <span class="badge badge-green">New</span>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <div class="upload-area" onclick="alert('File browser would open to select a .3mf or .stl design file.')" style="padding: 24px;">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Drop your design file here</div>
+            <div class="upload-sub">.3MF, .STL, .OBJ · Max 50 MB</div>
+          </div>
+        </div>
+        <div class="upload-form-grid">
+          <div class="form-group"><label>Design Name</label><input type="text" placeholder="e.g. Solstice Blouse"></div>
+          <div class="form-group"><label>Category</label>
+            <select><option>Top</option><option>Bottom</option><option>Dress</option><option>Jacket</option><option>Accessory</option></select>
+          </div>
+          <div class="form-group"><label>Recommended Material</label>
+            <select><option>PLA Bio-Filament</option><option>Ocean PET</option><option>Hemp Composite</option><option>Bamboo PLA</option></select>
+          </div>
+          <div class="form-group"><label>Base Price (€)</label><input type="number" placeholder="e.g. 48.00"></div>
+          <div class="form-group"><label>Collection Tag</label><input type="text" placeholder="e.g. Spring 2025"></div>
+          <div class="form-group"><label>Estimated Print Time</label>
+            <select><option>2–4 hours</option><option>4–6 hours</option><option>6–10 hours</option></select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 12px;">
+          <label>Design Description</label>
+          <input type="text" placeholder="A brief description of the garment, inspiration, and key features...">
+        </div>
+        <button class="upload-submit" onclick="alert('🎉 Design uploaded successfully! It will appear in the marketplace after a quick eco-compliance review.')">
+          🚀 Publish Design
+        </button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card-block">
+          <div class="card-block-title">Your Designs <span class="badge badge-green">12 active</span></div>
+          <div class="design-list">
+            <div class="design-item">
+              <div class="design-thumb">👗</div>
+              <div class="design-item-info">
+                <div class="design-item-name">Solstice Wrap Dress</div>
+                <div class="design-item-meta">PLA Bio · 28 sales · ⭐ 4.9</div>
+              </div>
+              <div class="design-item-price">€62</div>
+            </div>
+            <div class="design-item">
+              <div class="design-thumb">🧥</div>
+              <div class="design-item-info">
+                <div class="design-item-name">Forager Jacket</div>
+                <div class="design-item-meta">Ocean PET · 19 sales · ⭐ 4.7</div>
+              </div>
+              <div class="design-item-price">€89</div>
+            </div>
+            <div class="design-item">
+              <div class="design-thumb">👕</div>
+              <div class="design-item-info">
+                <div class="design-item-name">Ripple Structured Top</div>
+                <div class="design-item-meta">Hemp · 22 sales · ⭐ 4.8</div>
+              </div>
+              <div class="design-item-price">€44</div>
+            </div>
+            <div class="design-item">
+              <div class="design-thumb">👖</div>
+              <div class="design-item-info">
+                <div class="design-item-name">Terrain Trousers</div>
+                <div class="design-item-meta">Bamboo PLA · 14 sales · ⭐ 4.6</div>
+              </div>
+              <div class="design-item-price">€55</div>
+            </div>
+            <div class="design-item">
+              <div class="design-thumb">🧣</div>
+              <div class="design-item-info">
+                <div class="design-item-name">Moss Cowl Scarf</div>
+                <div class="design-item-meta">Hemp · 11 sales · ⭐ 5.0</div>
+              </div>
+              <div class="design-item-price">€28</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="impact-card">
+          <h3>🌱 Your Environmental Impact</h3>
+          <div class="impact-row"><span class="impact-label">Total water saved</span><span class="impact-val">253,400 L</span></div>
+          <div class="impact-row"><span class="impact-label">CO₂ avoided</span><span class="impact-val">1.34 tonnes</span></div>
+          <div class="impact-row"><span class="impact-label">Garments recycled</span><span class="impact-val">41 pieces</span></div>
+          <div class="impact-row"><span class="impact-label">Eco tokens earned</span><span class="impact-val">🌱 1,240</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>Prototype for sustainable fashion marketplace concept. &copy; 2025 EcoPrint Initiative.</footer>
+</div>
+
+<!-- ████████ HUB DASHBOARD ████████ -->
+<div class="page" id="page-hub">
+  <div class="page-header">
+    <h2>Printing Hub Dashboard</h2>
+    <p>Manage incoming orders, track printer status, and coordinate local deliveries.</p>
+  </div>
+
+  <div class="hub-stats">
+    <div class="stat-card">
+      <span class="stat-card-icon">📋</span>
+      <div class="stat-card-label">Queued Orders</div>
+      <div class="stat-card-value">3</div>
+      <div class="stat-card-sub">Awaiting print start</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card-icon">🖨️</span>
+      <div class="stat-card-label">Printing Now</div>
+      <div class="stat-card-value">3</div>
+      <div class="stat-card-sub">Across 3 printers</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card-icon">🔍</span>
+      <div class="stat-card-label">Quality Check</div>
+      <div class="stat-card-value">1</div>
+      <div class="stat-card-sub">Awaiting inspection</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card-icon">✅</span>
+      <div class="stat-card-label">Delivered Today</div>
+      <div class="stat-card-value">1</div>
+      <div class="stat-card-sub">↑ on track</div>
+    </div>
+  </div>
+
+    <div style="padding: 28px 80px 60px;">
+
+    <!-- Incoming Orders Section -->
+    <div style="margin-bottom: 32px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <h3 style="font-size:20px;color:var(--green-deep);">Incoming Orders</h3>
+        <span class="badge badge-amber">3 queued</span>
+      </div>
+      <div id="hub-orders-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;"></div>
+    </div>
+
+    <!-- Printing Status Section -->
+    <div style="margin-bottom: 32px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <h3 style="font-size:20px;color:var(--green-deep);">Printing Status</h3>
+        <span class="badge badge-green">3 active</span>
+      </div>
+      <div id="hub-printing-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;"></div>
+    </div>
+
+    <!-- Quality Check + Delivered -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <h3 style="font-size:20px;color:var(--green-deep);">Quality Check</h3>
+          <span style="background:#ede9fe;color:#7c3aed;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:600;">1 pending</span>
+        </div>
+        <div id="hub-quality-grid" style="display:flex;flex-direction:column;gap:12px;"></div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <h3 style="font-size:20px;color:var(--green-deep);">Delivered</h3>
+          <span class="badge badge-green">1 today</span>
+        </div>
+        <div id="hub-delivered-grid" style="display:flex;flex-direction:column;gap:12px;"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>Prototype for sustainable fashion marketplace concept. &copy; 2025 EcoPrint Initiative.</footer>
+</div>
+
+<!-- ████████ SUSTAINABILITY ████████ -->
+<div class="page" id="page-sustain">
+  <div class="sustain-hero">
+    <h2>Sustainability Dashboard</h2>
+    <p>Real-time environmental impact of the EcoPrint platform — because accountability matters.</p>
+  </div>
+
+  <div class="sustain-metrics">
+    <div class="sustain-card">
+      <div class="sustain-icon">💧</div>
+      <div><span class="sustain-num">2.4</span><span class="sustain-unit">M L</span></div>
+      <div class="sustain-label">Total Water Saved</div>
+    </div>
+    <div class="sustain-card">
+      <div class="sustain-icon">♻️</div>
+      <div><span class="sustain-num">48</span><span class="sustain-unit">K</span></div>
+      <div class="sustain-label">Garments Recycled</div>
+    </div>
+    <div class="sustain-card">
+      <div class="sustain-icon">🌍</div>
+      <div><span class="sustain-num">620</span><span class="sustain-unit">T</span></div>
+      <div class="sustain-label">CO₂ Emissions Reduced</div>
+    </div>
+    <div class="sustain-card">
+      <div class="sustain-icon">🌱</div>
+      <div><span class="sustain-num">1.2</span><span class="sustain-unit">M</span></div>
+      <div class="sustain-label">Eco Tokens Earned</div>
+    </div>
+  </div>
+
+  <div class="sustain-charts">
+    <div class="card-block">
+      <div class="card-block-title">Monthly Water Savings (L)</div>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;" id="water-chart"></div>
+    </div>
+    <div class="card-block">
+      <div class="card-block-title">Material Breakdown</div>
+      <div id="material-chart" style="margin-top: 8px; display: flex; flex-direction: column; gap: 10px;"></div>
+    </div>
+  </div>
+
+  <!-- Community Leaderboard -->
+  <div class="leaderboard">
+    <h3 class="lb-title">🏆 Community Leaderboard</h3>
+    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid rgba(149,213,178,0.15);overflow:hidden;">
+      <!-- Header row -->
+      <div style="display:grid;grid-template-columns:52px 1fr 140px 140px 110px;padding:12px 20px;background:var(--cream);border-bottom:1px solid var(--cream-dark);">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);">Rank</div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);">User</div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);text-align:center;">Eco Points</div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);text-align:center;">Garments Recycled</div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);text-align:center;">Badge</div>
+      </div>
+      <div id="leaderboard-list"></div>
+    </div>
+  </div>
+
+  <!-- Eco Challenges -->
+  <div style="padding: 0 80px 60px;">
+    <h3 style="font-size:22px;color:var(--green-deep);margin-bottom:20px;">🎯 Eco Challenges</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" id="eco-challenges"></div>
+  </div>
+
+  <footer>Prototype for sustainable fashion marketplace concept. &copy; 2025 EcoPrint Initiative.</footer>
+</div>
+
+<!-- ████████ CHATBOT ████████ -->
+<div class="chatbot-fab" id="chatFab" onclick="toggleChat()">
+  🌱
+</div>
+
+<div class="chatbot-popup" id="chatPopup">
+  <div class="chatbot-header">
+    <div class="chatbot-header-info">
+      <div class="chatbot-dot"></div>
+      <div>
+        <h4>Eco Assistant 🌱</h4>
+        <p>Online · Sustainability helper</p>
+      </div>
+    </div>
+    <button class="chatbot-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chatbot-body" id="chatBody">
+    <div class="chat-msg bot"><div class="chat-bubble">Hi! I'm your Eco Assistant 🌱 Ask me anything about sustainable fashion, materials, or EcoPrint!</div></div>
+  </div>
+  <div class="chatbot-questions">
+    <div class="chatbot-q-label">Quick questions</div>
+    <button class="chatbot-q-btn" onclick="askQ(this)">How does 3D fashion reduce water waste?</button>
+    <button class="chatbot-q-btn" onclick="askQ(this)">What are Eco Tokens?</button>
+    <button class="chatbot-q-btn" onclick="askQ(this)">How do I recycle my garment?</button>
+    <button class="chatbot-q-btn" onclick="askQ(this)">Which materials are most sustainable?</button>
+  </div>
+  <div class="chatbot-input-wrap">
+    <input class="chatbot-input" id="chatInput" placeholder="Ask about sustainability..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chatbot-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<script>
+// ─── NAVIGATION ───
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ─── PRODUCTS DATA ───
+const products = [
+  { id:1, name:'Basant Wrap Dress', designer:'Ananya Krishnan', material:'PLA Bio', matIcon:'🌽', price:'₹4,200', eco:9.4, water:'2,700 L', icon:'👗', bg:'#d8f3dc' },
+  { id:2, name:'Himalayan Jacket', designer:'Rohan Mehta', material:'Ocean PET', matIcon:'🌊', price:'₹6,800', eco:9.1, water:'3,100 L', icon:'🧥', bg:'#caf0f8' },
+  { id:3, name:'Nilgiri Trousers', designer:'Priya Iyer', material:'Bamboo PLA', matIcon:'🎋', price:'₹3,900', eco:8.8, water:'1,900 L', icon:'👖', bg:'#f0ebe1' },
+  { id:4, name:'Banyan Structured Top', designer:'Ananya Krishnan', material:'Hemp Mix', matIcon:'🌿', price:'₹2,950', eco:9.6, water:'1,600 L', icon:'👕', bg:'#e8f5e9' },
+  { id:5, name:'Ganga Woven Sneakers', designer:'Arjun Nair', material:'Ocean PET', matIcon:'🌊', price:'₹5,500', eco:8.5, water:'900 L', icon:'👟', bg:'#e3f2fd' },
+  { id:6, name:'Shola Cowl Scarf', designer:'Meera Pillai', material:'Hemp Mix', matIcon:'🌿', price:'₹1,800', eco:9.8, water:'400 L', icon:'🧣', bg:'#f1f8e9' },
+  { id:7, name:'Surya Print Shorts', designer:'Rohan Mehta', material:'PLA Bio', matIcon:'🌽', price:'₹2,400', eco:9.2, water:'1,200 L', icon:'🩳', bg:'#fff8e1' },
+  { id:8, name:'Aranya Hoodie', designer:'Priya Iyer', material:'Bamboo PLA', matIcon:'🎋', price:'₹5,100', eco:9.0, water:'2,400 L', icon:'🧥', bg:'#e8f5e9' },
+];
+
+function renderProducts() {
+  const grid = document.getElementById('products-grid');
+  if (!grid) return;
+  grid.innerHTML = products.map(p => `
+    <div class="product-card">
+      <div class="product-img" style="background:${p.bg}">
+        <span style="font-size:72px">${p.icon}</span>
+        <div class="eco-score-badge">🌱 ${p.eco}</div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-designer">by ${p.designer}</div>
+        <div class="product-meta">
+          <div class="product-price">${p.price}</div>
+          <div class="product-material">${p.matIcon} ${p.material}</div>
+        </div>
+        <div class="water-saved">💧 Saves <strong style="margin:0 2px;">${p.water}</strong> vs. traditional</div>
+        <div class="product-btns">
+          <button class="btn-sm btn-green" onclick="showPage('customize')">Customize</button>
+          <button class="btn-sm btn-ghost" onclick="alert('Design details for: ${p.name}\\n\\nDesigner: ${p.designer}\\nMaterial: ${p.material}\\nEco Score: ${p.eco}/10\\nWater Saved: ${p.water}')">Details</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── ORDERS DATA ───
+const orders = [
+  { id:'EP-1042', customer:'Kavya Sharma', garment:'Basant Wrap Dress', material:'PLA Bio', designer:'Ananya Krishnan', time:'5h', status:'queued' },
+  { id:'EP-1041', customer:'Rahul Verma', garment:'Himalayan Jacket', material:'Ocean PET', designer:'Rohan Mehta', time:'8h', status:'printing' },
+  { id:'EP-1040', customer:'Deepa Nair', garment:'Banyan Top', material:'Hemp Mix', designer:'Ananya Krishnan', time:'4h', status:'queued' },
+  { id:'EP-1039', customer:'Suresh Patel', garment:'Nilgiri Trousers', material:'Bamboo PLA', designer:'Priya Iyer', time:'6h', status:'printing' },
+  { id:'EP-1038', customer:'Sunita Joshi', garment:'Shola Cowl Scarf', material:'Hemp Mix', designer:'Meera Pillai', time:'2h', status:'quality' },
+  { id:'EP-1037', customer:'Vikram Singh', garment:'Aranya Hoodie', material:'Bamboo PLA', designer:'Priya Iyer', time:'7h', status:'printing' },
+  { id:'EP-1036', customer:'Lakshmi Iyer', garment:'Ganga Sneakers', material:'Ocean PET', designer:'Arjun Nair', time:'5h', status:'delivered' },
+  { id:'EP-1035', customer:'Amit Gupta', garment:'Surya Print Shorts', material:'PLA Bio', designer:'Rohan Mehta', time:'3h', status:'queued' },
+];
+
+const statusMap = { queued:'⏳ Queued', printing:'🖨️ Printing', quality:'🔍 Quality Check', delivered:'✅ Delivered' };
+const statusClass = { queued:'status-pending', printing:'status-printing', quality:'status-quality', delivered:'status-done' };
+const statusColor = { queued:'#fef3c7', printing:'rgba(82,183,136,0.12)', quality:'#ede9fe', delivered:'#d8f3dc' };
+const statusTextColor = { queued:'#92400e', printing:'#2d6a4f', quality:'#7c3aed', delivered:'#1a3a2a' };
+
+function renderOrders() {
+  // Hub card views
+  const queuedGrid = document.getElementById('hub-orders-grid');
+  const printingGrid = document.getElementById('hub-printing-grid');
+  const qualityGrid = document.getElementById('hub-quality-grid');
+  const deliveredGrid = document.getElementById('hub-delivered-grid');
+  if (!queuedGrid) return;
+
+  const garmentIcons = { 'Basant Wrap Dress':'👗', 'Himalayan Jacket':'🧥', 'Banyan Top':'👕', 'Nilgiri Trousers':'👖', 'Shola Cowl Scarf':'🧣', 'Aranya Hoodie':'🧥', 'Ganga Sneakers':'👟', 'Surya Print Shorts':'🩳' };
+  const getIcon = (g) => Object.entries(garmentIcons).find(([k]) => g.includes(k.split(' ')[0]))?.[1] || '👗';
+
+  const makeCard = (o, showProgress) => `
+    <div style="background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);border:1px solid rgba(149,213,178,0.15);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-sm)'">
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+        <div style="width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--cream-dark));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">${getIcon(o.garment)}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;color:var(--green-deep);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${o.garment}</div>
+          <div style="color:var(--text-light);font-size:12px;margin-top:2px;">${o.customer}</div>
+        </div>
+        <span style="background:${statusColor[o.status]};color:${statusTextColor[o.status]};padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;white-space:nowrap;">${statusMap[o.status]}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+        <div style="background:var(--cream);border-radius:7px;padding:8px 10px;">
+          <div style="font-size:10px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;">Material</div>
+          <div style="font-size:12px;font-weight:600;color:var(--green-deep);margin-top:2px;">${o.material}</div>
+        </div>
+        <div style="background:var(--cream);border-radius:7px;padding:8px 10px;">
+          <div style="font-size:10px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;">Est. Time</div>
+          <div style="font-size:12px;font-weight:600;color:var(--green-deep);margin-top:2px;">${o.time}</div>
+        </div>
+      </div>
+      ${showProgress ? `<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:4px;"><span>Print progress</span><span style="color:var(--green-bright);font-weight:600;">${Math.floor(Math.random()*60+30)}%</span></div><div style="height:6px;background:var(--cream-dark);border-radius:100px;overflow:hidden;"><div style="height:100%;width:${Math.floor(Math.random()*60+30)}%;background:linear-gradient(90deg,var(--green-bright),var(--green-mid));border-radius:100px;"></div></div></div>` : ''}
+      <div style="display:flex;gap:8px;">
+        <button onclick="alert('Downloading design file for ${o.id}...')" style="flex:1;padding:8px;background:var(--cream);border:1.5px solid var(--cream-dark);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--green-bright)';this.style.color='var(--green-mid)'" onmouseout="this.style.borderColor='var(--cream-dark)';this.style.color='var(--text-mid)'">⬇ Download Design</button>
+        <button onclick="alert('${o.status === 'queued' ? 'Print job started for ' + o.id + '! 🖨️' : o.status === 'quality' ? 'Quality check passed for ' + o.id + '! Marking as delivered. 🌱' : 'Order ' + o.id + ' marked as delivered! Eco tokens awarded. ✅'}')" style="flex:1;padding:8px;background:var(--green-bright);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--white);cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='var(--green-mid)'" onmouseout="this.style.background='var(--green-bright)'">${o.status === 'queued' ? '▶ Start Print' : o.status === 'printing' ? '🔍 Mark Quality Check' : o.status === 'quality' ? '✓ Approve & Deliver' : '✓ Delivered'}</button>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text-light);text-align:right;">Order ID: <strong style="color:var(--green-mid)">${o.id}</strong></div>
+    </div>
+  `;
+
+  const queued = orders.filter(o => o.status === 'queued');
+  const printing = orders.filter(o => o.status === 'printing');
+  const quality = orders.filter(o => o.status === 'quality');
+  const delivered = orders.filter(o => o.status === 'delivered');
+
+  if (queuedGrid) queuedGrid.innerHTML = queued.map(o => makeCard(o, false)).join('') || '<div style="color:var(--text-light);font-size:14px;padding:16px;">No queued orders</div>';
+  if (printingGrid) printingGrid.innerHTML = printing.map(o => makeCard(o, true)).join('') || '<div style="color:var(--text-light);font-size:14px;padding:16px;">No active print jobs</div>';
+  if (qualityGrid) qualityGrid.innerHTML = quality.map(o => makeCard(o, false)).join('') || '<div style="color:var(--text-light);font-size:14px;padding:16px;">None pending</div>';
+  if (deliveredGrid) deliveredGrid.innerHTML = delivered.map(o => makeCard(o, false)).join('') || '<div style="color:var(--text-light);font-size:14px;padding:16px;">None today</div>';
+}
+
+function renderPrinters() {
+  // No longer used (replaced by card-based hub)
+}
+
+// ─── SUSTAINABILITY ───
+function renderSustainability() {
+  const wc = document.getElementById('water-chart');
+  if (wc) {
+    const months = [['Jan','142K'],['Feb','168K'],['Mar','195K'],['Apr','210K'],['May','238K'],['Jun','280K'],['Jul','314K'],['Aug','360K']];
+    const max = 360;
+    wc.innerHTML = months.map(([m,v]) => {
+      const pct = Math.round(parseInt(v)*100/max);
+      return `<div><div class="progress-label"><span>${m}</span><span style="color:var(--green-bright);font-weight:600">${v} L</span></div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;
+    }).join('');
+  }
+
+  const mc = document.getElementById('material-chart');
+  if (mc) {
+    const mats = [['🌽 PLA Bio-Filament',42,'#52b788'],['🌊 Ocean PET',31,'#48cae4'],['🌿 Hemp Composite',18,'#95d5b2'],['🎋 Bamboo PLA',7,'#b7e4c7'],['🌾 Other',2,'#ede8db']];
+    mc.innerHTML = mats.map(([name,pct,color]) => `
+      <div><div class="progress-label"><span>${name}</span><span style="font-weight:600">${pct}%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div></div>
+    `).join('');
+  }
+
+  const lb = document.getElementById('leaderboard-list');
+  if (lb) {
+    const users = [
+      { rank:1, name:'Ananya Krishnan', city:'Mumbai', role:'Designer', points:'4,820', recycled:38, badge:'🥇 Eco Champion', rankClass:'gold' },
+      { rank:2, name:'Rohan Mehta', city:'Bengaluru', role:'Designer', points:'3,940', recycled:29, badge:'🥈 Green Star', rankClass:'silver' },
+      { rank:3, name:'Kavya Sharma', city:'Delhi', role:'Shopper', points:'2,610', recycled:22, badge:'🥉 Eco Warrior', rankClass:'bronze' },
+      { rank:4, name:'Priya Iyer', city:'Chennai', role:'Designer', points:'2,410', recycled:19, badge:'🌿 Eco Friend', rankClass:'other' },
+      { rank:5, name:'Suresh Patel', city:'Ahmedabad', role:'Shopper', points:'2,180', recycled:16, badge:'🌿 Eco Friend', rankClass:'other' },
+      { rank:6, name:'Meera Pillai', city:'Kochi', role:'Designer', points:'1,920', recycled:14, badge:'🌱 Starter', rankClass:'other' },
+      { rank:7, name:'Deepa Nair', city:'Pune', role:'Shopper', points:'1,740', recycled:11, badge:'🌱 Starter', rankClass:'other' },
+    ];
+    const rankColors = { gold:'#d4a853', silver:'#9ca3af', bronze:'#a16207', other:'var(--text-light)' };
+    lb.innerHTML = users.map(u => `
+      <div style="display:grid;grid-template-columns:52px 1fr 140px 140px 110px;padding:14px 20px;border-bottom:1px solid var(--cream-dark);align-items:center;transition:background 0.15s;" onmouseover="this.style.background='rgba(149,213,178,0.06)'" onmouseout="this.style.background=''">
+        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:${rankColors[u.rankClass]};text-align:center;">${u.rank}</div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${u.name[0]}</div>
+          <div>
+            <div style="font-weight:600;color:var(--green-deep);font-size:14px;">${u.name}</div>
+            <div style="color:var(--text-light);font-size:12px;">${u.role} · ${u.city}</div>
+          </div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--green-bright);font-weight:600;">${u.points}</div>
+          <div style="font-size:11px;color:var(--text-light);">eco points</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--green-deep);font-weight:600;">${u.recycled}</div>
+          <div style="font-size:11px;color:var(--text-light);">garments</div>
+        </div>
+        <div style="text-align:center;">
+          <span style="background:var(--accent);color:var(--green-deep);padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;white-space:nowrap;">${u.badge}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const challenges = document.getElementById('eco-challenges');
+  if (challenges) {
+    const items = [
+      { icon:'♻️', title:'Recycle Old Garment', desc:'Return any EcoPrint garment to your nearest hub for re-spooling.', reward:'+150 pts', progress:65, color:'#d8f3dc' },
+      { icon:'🌿', title:'Choose Biodegradable Material', desc:'Place your next order using PLA Bio or Hemp Composite material.', reward:'+80 pts', progress:40, color:'#e8f5e9' },
+      { icon:'📋', title:'Complete Sustainability Quiz', desc:'Test your knowledge of eco-fashion and earn bonus tokens.', reward:'+200 pts', progress:0, color:'#fff8e1' },
+      { icon:'🌱', title:'Refer a Green Friend', desc:'Invite someone to EcoPrint and earn tokens when they place their first order.', reward:'+120 pts', progress:100, color:'#f0fdf4' },
+      { icon:'🏭', title:'Visit Your Local Hub', desc:'Check in at any certified EcoPrint printing hub near you.', reward:'+50 pts', progress:80, color:'#ecfdf5' },
+      { icon:'💧', title:'Water Saver Challenge', desc:'Order 3 garments using dry-print PLA materials to save 8,000 L of water.', reward:'+300 pts', progress:33, color:'#e0f2fe' },
+    ];
+    challenges.innerHTML = items.map(c => `
+      <div style="background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);border:1px solid rgba(149,213,178,0.15);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-sm)'">
+        <div style="width:52px;height:52px;border-radius:12px;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:14px;">${c.icon}</div>
+        <div style="font-weight:700;color:var(--green-deep);font-size:15px;margin-bottom:6px;">${c.title}</div>
+        <div style="color:var(--text-mid);font-size:13px;line-height:1.5;margin-bottom:14px;">${c.desc}</div>
+        <div style="margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-light);margin-bottom:5px;"><span>${c.progress === 100 ? '✅ Completed' : c.progress > 0 ? 'In progress' : 'Not started'}</span><span style="font-weight:600;color:var(--green-bright);">${c.progress}%</span></div>
+          <div style="height:6px;background:var(--cream-dark);border-radius:100px;overflow:hidden;"><div style="height:100%;width:${c.progress}%;background:${c.progress===100?'var(--green-mid)':'linear-gradient(90deg,var(--green-bright),var(--green-mid))'};border-radius:100px;"></div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="background:var(--accent);color:var(--green-deep);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;">${c.reward}</span>
+          <button onclick="alert('${c.progress === 100 ? 'Challenge already completed! 🎉' : 'Challenge accepted! Complete the task to earn ' + c.reward}')" style="background:none;border:1.5px solid var(--green-bright);color:var(--green-mid);padding:5px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--green-bright)';this.style.color='white'" onmouseout="this.style.background='none';this.style.color='var(--green-mid)'">${c.progress===100?'Claimed ✓':'Join'}</button>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+// ─── MATERIAL SELECTOR ───
+function selectMaterial(el) {
+  document.querySelectorAll('.material-option').forEach(m => m.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ─── FILTER BUTTONS ───
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// ─── CHATBOT ───
+const chatResponses = {
+  'How does 3D fashion reduce water waste?': 'Traditional garment manufacturing uses up to 2,700 litres of water per cotton T-shirt. EcoPrint uses dry 3D printing processes — our bio-filaments require zero water in production, saving thousands of litres per garment! 💧',
+  'What are Eco Tokens?': 'Eco Tokens 🌱 are EcoPrint\'s reward currency! You earn them by purchasing garments, returning items for recycling, and referring friends. Tokens can be redeemed for discounts on future orders — sustainability pays literally!',
+  'How do I recycle my garment?': 'Simply bring your worn EcoPrint garment to any local hub. Our staff will inspect it, shred the material, and re-spool it into fresh filament. You\'ll receive Eco Tokens as a thank-you. Zero waste, full circle! ♻️',
+  'Which materials are most sustainable?': 'Our most eco-friendly options are: 1️⃣ Hemp Composite (natural, renewable, low water) 2️⃣ PLA Bio-Filament (corn-based, compostable) 3️⃣ Ocean PET (recycled ocean plastic). Hemp scores highest for carbon footprint — PLA is softest for skin contact.',
+};
+
+function toggleChat() {
+  const popup = document.getElementById('chatPopup');
+  popup.classList.toggle('open');
+}
+
+function askQ(btn) {
+  const q = btn.textContent;
+  addMsg('user', q);
+  setTimeout(() => {
+    addMsg('bot', chatResponses[q] || 'Great question! Our sustainability team is continuously improving our impact. You can explore the Sustainability Dashboard for live metrics. 🌿');
+  }, 600);
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const val = input.value.trim();
+  if (!val) return;
+  addMsg('user', val);
+  input.value = '';
+  setTimeout(() => {
+    const reply = chatResponses[val] || 'Thanks for your question! 🌱 For detailed sustainability info, check out our Sustainability Dashboard. For order help, our hub team is always available. Keep it green!';
+    addMsg('bot', reply);
+  }, 700);
+}
+
+function addMsg(type, text) {
+  const body = document.getElementById('chatBody');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${type}`;
+  div.innerHTML = `<div class="chat-bubble">${text}</div>`;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+// ─── INIT ───
+renderProducts();
+renderOrders();
+renderPrinters();
+renderSustainability();
+</script>
+</body>
+</html>
